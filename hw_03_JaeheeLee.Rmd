@@ -90,15 +90,17 @@ data$col_means <- colMeans(scores_double)
 ```{r}
 # extract the col_means 
 # 1 way 
-unlist(list.extract(data, 'col_means')) 
+list.extract(data, "col_means")
 # 2 way 
-unlist(data[7])
+data[[7]]
 # show to extract the third element of col_means
-unlist(data[[7]][3])
+data[[7]][3]
 # 3 way 
-unlist(data['col_means'])
+data[["col_means"]]
 # show to extract the third element of col_means
-unlist(data[['col_means']][3])
+data[["col_means"]][3]
+# 4 way 
+data$col_means
 ```
 
 # For Loops
@@ -115,6 +117,41 @@ $$
 1. Write a function called `calcn()` that takes as input a vector `x` containing the first three elements of this sequence and an integer `n` denoting the final element of the sequence to calculate.  
 - `calcn()` should return element `n`.
 - Include error checking to to ensure the inputs are of the correct length and type and n is greater than 0.
+```{r}
+a <- vector(mode = "double", length = 1000)
+
+
+  for (i in seq_along(a)){
+  if(i ==1) {
+    a[[i]] <- 11
+  } else if ( i ==2){
+    a[[i]] <- 1 
+  } else if (i == 3){
+    a[[i]] <- 130
+  }
+  else {
+    a[[i]] <- a[[i-1]]+ abs(a[[i-3]] - a[[i-2]])/4
+  }
+}
+
+a[[1000L]]
+a[[1L]]
+b <- vector(mode = "double", length = 1000)
+
+for (i in seq_along(b)){
+  if(i ==1) {
+    b[[i]] <- 7
+  } else if ( i ==2){
+    b[[i]] <- 3
+  } else if (i == 3){
+    b[[i]] <- 20
+  }
+  else {
+    b[[i]] <- b[[i-1]]+ abs(b[[i-3]] - b[[i-2]])/4
+  }
+}
+b[[8L]]
+```
 
 For example, in my implementation of `calcn()`, I obtained the following: (see HTML)
 
