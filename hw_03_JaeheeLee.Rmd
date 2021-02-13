@@ -225,6 +225,17 @@ Lists are often used to save simulation output. You can then extract individual 
 Consider the $t$-test, used to test whether or not the mean of some observations is 0. We would use the following code to simulate data from a [Normal (0,1) distribution](https://en.wikipedia.org/wiki/Normal_distribution), and then use a $t$-test to test if the true mean is 0:
 
 1. The output of `t.test()` is a list-like object. Use one function to show how many elements are in the list along with their names and types.
+```{r}
+x <- rnorm(n = 10, mean = 0, sd = 1)
+tout <- t.test(x)
+x
+# how many elements are in the list 
+length(tout)
+# names 
+ls(tout)
+# types 
+str(tout)
+```
 
 2. Write a for-loop to perform the following three operations on iteration `i`:
     1. Draw 10 random observations from a normal distribution with mean 0 and standard deviation 2.
