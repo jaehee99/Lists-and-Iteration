@@ -72,15 +72,17 @@ scores_data %>%
 5. Use a `map*()` function to identify the names of the variables in the `scores` data frame that are *not* of type double.  
 - Create a new element called `col_means` in the list that contains just the column means of all the *double* variables in the `scores` data frame.
 ```{r}
-map_lgl(scores, is.double) -> logical
+scores %>%  
+  discard(is.double) %>%  
+  map(table) %>%  
+  names() -> names_of_var_not_double
+```
 
-logical[1] 
-logical[2] 
-logical[3] 
-
-scores %>% 
-  na.omit() %>% 
-  mutate(col_means = (P0+P1+P2+P3+P4+P5+P6+maxgeno+maxP+geno+posterior_mean)/11) -> scores
+```{r}
+scores %>%  
+  keep(is.double) %>%  
+  na.omit() -> scores_double
+data$col_means <- colMeans(scores_double) 
 ```
 
 6. Demonstrate three different ways to extract the `col_means` element from the list.  The extracted element should *not* be a list. 
