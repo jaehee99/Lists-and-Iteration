@@ -117,7 +117,14 @@ $$
 1. Write a function called `calcn()` that takes as input a vector `x` containing the first three elements of this sequence and an integer `n` denoting the final element of the sequence to calculate.  
 - `calcn()` should return element `n`.
 - Include error checking to to ensure the inputs are of the correct length and type and n is greater than 0.
+For example, in my implementation of `calcn()`, I obtained the following: (see HTML)
+
+- Evaluate your function at the following inputs:
+  + calcn(c(11,1,130), 1000L)  
+  + calcn(c(11,1,130), 1L)  
+  + calcn(c(7, 3, 20), 8L)  
 ```{r}
+# 1 way 
 a <- vector(mode = "double", length = 1000)
 
 
@@ -141,7 +148,7 @@ b <- vector(mode = "double", length = 1000)
 for (i in seq_along(b)){
   if(i ==1) {
     b[[i]] <- 7
-  } else if ( i ==2){
+  } else if (i ==2){
     b[[i]] <- 3
   } else if (i == 3){
     b[[i]] <- 20
@@ -153,12 +160,63 @@ for (i in seq_along(b)){
 b[[8L]]
 ```
 
-For example, in my implementation of `calcn()`, I obtained the following: (see HTML)
+```{r}
+# 2 way 
+n <- vector(mode = "double", length = 1000)
 
-- Evaluate your function at the following inputs:
-  + calcn(c(11,1,130), 1000L)  
-  + calcn(c(11,1,130), 1L)  
-  + calcn(c(7, 3, 20), 8L)  
+calcn <- function(n)
+{
+if (n == 1){
+  return(11)
+  breaks;
+}
+  else if (n == 2){
+    return(1)
+      breaks;
+
+  }
+  else if (n == 3){
+    return(130)
+      breaks;
+
+  }
+  else {
+    return(calcn(n-1)+ abs(calcn(n-3)- calcn(n-2))/4)
+      breaks;
+
+  }
+}
+calcn(1L)
+calcn(1000L)
+
+n <- vector(mode = "double", length = 1000)
+
+calcn <- function(n)
+{
+if (n == 1){
+  return(7)
+  breaks;
+}
+  else if (n == 2){
+    return(3)
+      breaks;
+
+  }
+  else if (n == 3){
+    return(20)
+      breaks;
+
+  }
+  else {
+    return(calcn(n-1)+ abs(calcn(n-3)- calcn(n-2))/4)
+      breaks;
+
+  }
+}
+calcn(8L)
+```
+
+
 
 # Question: Lists, For-loops, and `map_*()`
 
