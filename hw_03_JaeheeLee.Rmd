@@ -55,7 +55,10 @@ is.vector(names_list)
 ```
 
 3. The `diploscores` element does not provide any information. Remove it from the list.
-   
+```{r}
+
+```
+  
 4. The `scores` element contains the output most users would want. The variables in `scores` called `P0`, `P1`, `P2`, `P3`, `P4`, `P5`, and `P6` contain "posterior probabilities" for each individual for values    `0`, `1`, `2`, `3`, `4`, `5`, and `6` (respectively).  
 - A quantity useful in Bayesian analysis is called the "posterior mean," which in this case is calculated as follows:
   + posterior_mean = `(P0 * 0) + (P1 * 1) + (P2 * 2) + (P3 * 3) + (P4 * 4) + (P5 * 5) + (P6 * 6)`.
