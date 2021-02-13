@@ -63,9 +63,17 @@ data[['diploscores']] <- NULL
 - A quantity useful in Bayesian analysis is called the "posterior mean," which in this case is calculated as follows:
   + posterior_mean = `(P0 * 0) + (P1 * 1) + (P2 * 2) + (P3 * 3) + (P4 * 4) + (P5 * 5) + (P6 * 6)`.
 - Calculate the posterior mean for each individual and add this as a new variable in the `scores` data frame.
+```{r}
+scores_data <- data$scores
+scores_data %>%  
+  mutate(posterior_mean = (P0 * 0) + (P1 * 1) + (P2 * 2) + (P3 * 3) + (P4 * 4) + (P5 * 5) + (P6 * 6)) -> scores
+```
 
 5. Use a `map*()` function to identify the names of the variables in the `scores` data frame that are *not* of type double.  
 - Create a new element called `col_means` in the list that contains just the column means of all the *double* variables in the `scores` data frame.
+```{r}
+
+```
 
 6. Demonstrate three different ways to extract the `col_means` element from the list.  The extracted element should *not* be a list. 
 - Show two ways to extract the third element of `col_means`
