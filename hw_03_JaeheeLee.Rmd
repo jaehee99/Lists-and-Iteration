@@ -85,10 +85,20 @@ scores %>%
 data$col_means <- colMeans(scores_double) 
 ```
 
-6. Demonstrate three different ways to extract the `col_means` element from the list.  The extracted element should *not* be a list. 
+6. Demonstrate three different ways to extract the `col_means` element from the list. The extracted element should *not* be a list. 
 - Show two ways to extract the third element of `col_means`
 ```{r}
-
+# extract the col_means 
+# 1 way 
+unlist(list.extract(data, 'col_means')) 
+# 2 way 
+unlist(data[7])
+# show to extract the third element of col_means
+unlist(data[[7]][3])
+# 3 way 
+unlist(data['col_means'])
+# show to extract the third element of col_means
+unlist(data[['col_means']][3])
 ```
 
 # For Loops
