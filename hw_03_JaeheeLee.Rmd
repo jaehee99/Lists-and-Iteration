@@ -43,10 +43,16 @@ method to quantify properties of locations on the [genome](https://www.ncbi.nlm.
 
 1. Use `readRDS()` and a relative path to read this data into R.
 ```{r}
+library(tidyverse)
 data <- readRDS("fpout.RDS")
 ```
 
 2. Use appropriate functions to obtain the length of the list and then the vector of the names from the list.
+```{r}
+length_list <- length(data)  
+names_list <- ls(data)
+is.vector(names_list)
+```
 
 3. The `diploscores` element does not provide any information. Remove it from the list.
    
