@@ -249,7 +249,24 @@ for (i in n){
 3. Use the appropriate map function to extract the sample mean from each test (from 2) and pipe to an appropriate plot to show the sampling distribution of the sample mean.
 - Hint: Make sure the data going into ggplot is a data frame (tibble)
 ```{r}
+library(ggplot2)
 
+tlist %>% 
+  map(~.$estimate[[1]]) -> list_list 
+
+cum_vec <- vector(mode = "double", length = 1000)
+for (i in seq_along(cum_vec)) {
+    cum_vec[[i]] <- list.extract(list_list, i)
+}
+
+
+cum_vec %>%  
+  tibble() %>%  
+  ggplot(aes(x=.)) + 
+  geom_histogram(aes(y=..density..),      
+                   binwidth=.5,
+                   colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666")  
 ```
 
 4. The $p$-value is an important quantity in statistics. Use a for-loop to extract the $p$-values from each test in part 1 and combine these
