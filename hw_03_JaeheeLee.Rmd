@@ -271,6 +271,18 @@ cum_vec %>%
 
 4. The $p$-value is an important quantity in statistics. Use a for-loop to extract the $p$-values from each test in part 1 and combine these
    $p$-values into a single vector called `pvec_f`. Show the first 6 values.
+```{r}
+
+tlist %>% 
+  map(~.$p.value[[1]]) -> pvalue
+
+pvec_f <- vector(mode = "double", length = 1000)
+
+for (i in seq_along(pvec_f)) {
+    pvec_f[[i]] <- list.extract(pvalue, i)
+}
+head(pvec_f)
+```
 
 5. Use the appropriate map function to extract the $p$-values from each test in part 1 and combine these $p$-values into a single vector called `pvec_m`. Show the first 6 values.
 
