@@ -272,10 +272,6 @@ cum_vec %>%
 4. The $p$-value is an important quantity in statistics. Use a for-loop to extract the $p$-values from each test in part 1 and combine these
    $p$-values into a single vector called `pvec_f`. Show the first 6 values.
 ```{r}
-
-tlist %>% 
-  map(~.$p.value[[1]]) -> pvalue
-
 pvec_f <- vector(mode = "double", length = 1000)
 
 for (i in seq_along(pvec_f)) {
@@ -285,12 +281,23 @@ head(pvec_f)
 ```
 
 5. Use the appropriate map function to extract the $p$-values from each test in part 1 and combine these $p$-values into a single vector called `pvec_m`. Show the first 6 values.
+```{r}
+tlist %>% 
+  map(~.$p.value[[1]]) %>%  
+  unlist() %>%  
+  head(6) -> pvec_m
+
+```
 
 6. *Extra Credit* $p$-values have a nice property where, if the the null hypothesis is true (i.e. the mean of the observations is actually 0), then the $p$-values follow the uniform distribution. 
 
 - Use the data from `pvec_m` to create a [QQ-plot](https://en.wikipedia.org/wiki/Q–Q_plot) and then interpret the plot with regard to whether the $p$-values exhibit a uniform distribution.  
 - Ensure your plot has appropriate labels for the axes and a title. 
 - Include an abline that is dashed and colored red.
+```{r}
+ggplot(data=as.data.frame(qqnorm( pvec_m , plot=F)), mapping=aes(x=x, y=y)) + 
+    geom_point() + geom_smooth(method="lm", se=FALSE, color = "red", linetype = "dashed") +ggtitle("QQ PLOT of pvec_m")
+```
 
 
 
