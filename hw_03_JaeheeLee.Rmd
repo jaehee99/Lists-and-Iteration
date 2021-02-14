@@ -90,7 +90,8 @@ data$col_means <- colMeans(scores_double)
 ```{r}
 # extract the col_means 
 # 1 way 
-list.extract(data, "col_means")
+# 
+#list.extract(data, "col_means")
 # 2 way 
 data[[7]]
 # show to extract the third element of col_means
@@ -187,7 +188,7 @@ if (n == 1){
   }
 }
 calcn(1L)
-calcn(1000L)
+# calcn(1000L)
 
 n <- vector(mode = "double", length = 1000)
 
@@ -228,24 +229,28 @@ Consider the $t$-test, used to test whether or not the mean of some observations
 ```{r}
 x <- rnorm(n = 10, mean = 0, sd = 1)
 tout <- t.test(x)
-x
-# how many elements are in the list 
-length(tout)
-# names 
-ls(tout)
-# types 
 str(tout)
 ```
 
 2. Write a for-loop to perform the following three operations on iteration `i`:
-    1. Draw 10 random observations from a normal distribution with mean 0 and standard deviation 2.
-    2. Run a $t$-test on these 10 observations.
-    3. Save the output of the $t$-test as the `i`th element in a list called `tlist`.  
-    
-- Set the seed to 1 and run for 1000 iterations.
-    
+
+```{r}
+library(rlist)
+set.seed(1)
+n <- c(1:1000)
+# Create empty list to store vectors
+tlist <- vector(mode = "list")
+
+for (i in n){
+ tlist[[i]] <- t.test(rnorm(10,0,2))
+}
+```
+
 3. Use the appropriate map function to extract the sample mean from each test (from 2) and pipe to an appropriate plot to show the sampling distribution of the sample mean.
 - Hint: Make sure the data going into ggplot is a data frame (tibble)
+```{r}
+
+```
 
 4. The $p$-value is an important quantity in statistics. Use a for-loop to extract the $p$-values from each test in part 1 and combine these
    $p$-values into a single vector called `pvec_f`. Show the first 6 values.
