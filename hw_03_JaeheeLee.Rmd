@@ -51,12 +51,16 @@ data <- readRDS("fpout.RDS")
 ```{r}
 length_list <- length(data)  
 names_list <- ls(data)
+
 is.vector(names_list)
 ```
 
 3. The `diploscores` element does not provide any information. Remove it from the list.
 ```{r}
-data[['diploscores']] <- NULL
+data[names(data) %in% "diploscores" == FALSE]  -> data  
+
+# Another method
+# data[['diploscores']] <- NULL
 ```
   
 4. The `scores` element contains the output most users would want. The variables in `scores` called `P0`, `P1`, `P2`, `P3`, `P4`, `P5`, and `P6` contain "posterior probabilities" for each individual for values    `0`, `1`, `2`, `3`, `4`, `5`, and `6` (respectively).  
@@ -64,8 +68,8 @@ data[['diploscores']] <- NULL
   + posterior_mean = `(P0 * 0) + (P1 * 1) + (P2 * 2) + (P3 * 3) + (P4 * 4) + (P5 * 5) + (P6 * 6)`.
 - Calculate the posterior mean for each individual and add this as a new variable in the `scores` data frame.
 ```{r}
-scores_data <- data$scores
-scores_data %>%  
+data %>%  
+  pluck(4) %>% 
   mutate(posterior_mean = (P0 * 0) + (P1 * 1) + (P2 * 2) + (P3 * 3) + (P4 * 4) + (P5 * 5) + (P6 * 6)) -> scores
 ```
 
@@ -81,8 +85,14 @@ scores %>%
 ```{r}
 scores %>%  
   keep(is.double) %>%  
-  na.omit() -> scores_double
-data$col_means <- colMeans(scores_double) 
+  na.omit() %>%  
+  colMeans() -> data$col_means
+
+# original 
+# scores %>%  
+#  keep(is.double) %>%  
+#  na.omit() -> scores_double
+# data$col_means <- colMeans(scores_double) 
 ```
 
 6. Demonstrate three different ways to extract the `col_means` element from the list. The extracted element should *not* be a list. 
@@ -90,18 +100,18 @@ data$col_means <- colMeans(scores_double)
 ```{r}
 # extract the col_means 
 # 1 way 
-# 
-#list.extract(data, "col_means")
+list.extract(data, "col_means")
 # 2 way 
 data[[7]]
-# show to extract the third element of col_means
-data[[7]][3]
 # 3 way 
 data[["col_means"]]
-# show to extract the third element of col_means
-data[["col_means"]][3]
 # 4 way 
 data$col_means
+
+# show to extract the third element of col_means
+data[[7]][3]
+# show to extract the third element of col_means
+data[["col_means"]][3]
 ```
 
 # For Loops
@@ -124,8 +134,39 @@ For example, in my implementation of `calcn()`, I obtained the following: (see H
   + calcn(c(11,1,130), 1000L)  
   + calcn(c(11,1,130), 1L)  
   + calcn(c(7, 3, 20), 8L)  
+
 ```{r}
-# 1 way 
+
+calcn <- function(x,n){
+  
+  for (i in 4:n){
+result = x[i-1] +abs(x[i-3]-x[i-2])/4
+  x = c(x, result)
+  }
+   return (x[n]) 
+}
+
+calcn(c(11,1,130),1L)
+calcn(c(11,1,130),1000L)
+calcn(c(7, 3, 20), 8L)
+# original 
+# if (n == 1){
+#   return(x[1])
+# }
+#   else if (n == 2){
+#     return(x[2])
+#   }
+#   else if (n == 3){
+#     return(x[3])
+#   }
+#   else {
+#     return(calcn(x, n-1)+ abs(calcn(x, n-3)- calcn(x, n-2))/4)
+#  }
+#  }
+#}
+```
+```{r}
+# checking the function with another method
 a <- vector(mode = "double", length = 1000)
 
 
@@ -141,9 +182,9 @@ a <- vector(mode = "double", length = 1000)
     a[[i]] <- a[[i-1]]+ abs(a[[i-3]] - a[[i-2]])/4
   }
 }
-
-a[[1000L]]
 a[[1L]]
+a[[1000L]]
+
 b <- vector(mode = "double", length = 1000)
 
 for (i in seq_along(b)){
@@ -160,63 +201,6 @@ for (i in seq_along(b)){
 }
 b[[8L]]
 ```
-
-```{r}
-# 2 way 
-n <- vector(mode = "double", length = 1000)
-
-calcn <- function(n)
-{
-if (n == 1){
-  return(11)
-  breaks;
-}
-  else if (n == 2){
-    return(1)
-      breaks;
-
-  }
-  else if (n == 3){
-    return(130)
-      breaks;
-
-  }
-  else {
-    return(calcn(n-1)+ abs(calcn(n-3)- calcn(n-2))/4)
-      breaks;
-
-  }
-}
-calcn(1L)
-# calcn(1000L)
-
-n <- vector(mode = "double", length = 1000)
-
-calcn <- function(n)
-{
-if (n == 1){
-  return(7)
-  breaks;
-}
-  else if (n == 2){
-    return(3)
-      breaks;
-
-  }
-  else if (n == 3){
-    return(20)
-      breaks;
-
-  }
-  else {
-    return(calcn(n-1)+ abs(calcn(n-3)- calcn(n-2))/4)
-      breaks;
-
-  }
-}
-calcn(8L)
-```
-
 
 
 # Question: Lists, For-loops, and `map_*()`
@@ -236,14 +220,16 @@ str(tout)
 
 ```{r}
 library(rlist)
+
 set.seed(1)
-n <- c(1:1000)
+n <- 1000
 # Create empty list to store vectors
 tlist <- vector(mode = "list")
 
-for (i in n){
+for (i in 1:n){
  tlist[[i]] <- t.test(rnorm(10,0,2))
 }
+
 ```
 
 3. Use the appropriate map function to extract the sample mean from each test (from 2) and pipe to an appropriate plot to show the sampling distribution of the sample mean.
@@ -252,7 +238,7 @@ for (i in n){
 library(ggplot2)
 
 tlist %>% 
-  map(~.$estimate[[1]]) -> list_list 
+  map(~.$estimate[[1]]) -> list_list
 
 cum_vec <- vector(mode = "double", length = 1000)
 for (i in seq_along(cum_vec)) {
@@ -264,9 +250,9 @@ cum_vec %>%
   tibble() %>%  
   ggplot(aes(x=.)) + 
   geom_histogram(aes(y=..density..),      
-                   binwidth=.5,
+                   binwidth =.2,
                    colour="black", fill="white") +
-  geom_density(alpha=.2, fill="#FF6666")  
+  geom_density(alpha=.2, fill="#FFFF00")  
 ```
 
 4. The $p$-value is an important quantity in statistics. Use a for-loop to extract the $p$-values from each test in part 1 and combine these
@@ -287,8 +273,10 @@ head(pvec_f)
 ```{r}
 tlist %>% 
   map(~.$p.value[[1]]) %>%  
-  unlist() %>%  
-  head(6) -> pvec_m
+  unlist() -> pvec_m
+
+pvec_m %>%  
+  head()
 
 ```
 
@@ -298,9 +286,19 @@ tlist %>%
 - Ensure your plot has appropriate labels for the axes and a title. 
 - Include an abline that is dashed and colored red.
 ```{r}
-ggplot(data=as.data.frame(qqnorm( pvec_m , plot=F)), mapping=aes(x=x, y=y)) + 
-    geom_point() + geom_smooth(method="lm", se=FALSE, color = "red", linetype = "dashed") +ggtitle("QQ PLOT of pvec_m")
+t.test(pvec_m)
 ```
 
+```{r}
+qqnorm(pvec_m)
+qqline(pvec_m, col = "red", lty = 2)
+```
+Interpretation: 
 
+Null hypothesis: p-value follow the uniform distribution.
+Alternative hypothesis: p-value do not follow the uniform distribution. 
+
+t.test shows that p-value is very close to 0. Let's say alpha =0.01, then p-value < alpha. Therefore, we can reject the null hypothesis. So we choose alternative hypothesis which is p-value do not follow the uniform distribution. 
+
+Furthermore,most of the dots are well aligned with the red line. This can indicates that this distribution is a normal distribution. 
 
