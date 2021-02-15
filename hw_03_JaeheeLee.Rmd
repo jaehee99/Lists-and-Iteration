@@ -51,14 +51,16 @@ data <- readRDS("fpout.RDS")
 ```{r}
 length_list <- length(data)  
 names_list <- ls(data)
-
+length_list
+names_list
 is.vector(names_list)
 ```
 
 3. The `diploscores` element does not provide any information. Remove it from the list.
 ```{r}
 data[names(data) %in% "diploscores" == FALSE]  -> data  
-
+# check
+ls(data)
 # Another method
 # data[['diploscores']] <- NULL
 ```
@@ -80,6 +82,7 @@ scores %>%
   discard(is.double) %>%  
   map(table) %>%  
   names() -> names_of_var_not_double
+names_of_var_not_double
 ```
 
 ```{r}
@@ -87,7 +90,7 @@ scores %>%
   keep(is.double) %>%  
   na.omit() %>%  
   colMeans() -> data$col_means
-
+data$col_means
 # original 
 # scores %>%  
 #  keep(is.double) %>%  
@@ -100,13 +103,13 @@ scores %>%
 ```{r}
 # extract the col_means 
 # 1 way 
-list.extract(data, "col_means")
+data$col_means
 # 2 way 
 data[[7]]
 # 3 way 
 data[["col_means"]]
 # 4 way 
-data$col_means
+# list.extract(data, "col_means")
 
 # show to extract the third element of col_means
 data[[7]][3]
