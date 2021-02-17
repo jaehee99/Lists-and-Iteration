@@ -88,15 +88,17 @@ names_of_var_not_double
 ```{r}
 scores %>%  
   keep(is.double) %>%  
-  na.omit() %>%  
   colMeans() -> data$col_means
 data$col_means
+
+
 # original 
 # scores %>%  
 #  keep(is.double) %>%  
 #  na.omit() -> scores_double
 # data$col_means <- colMeans(scores_double) 
 ```
+
 
 6. Demonstrate three different ways to extract the `col_means` element from the list. The extracted element should *not* be a list. 
 - Show two ways to extract the third element of `col_means`
@@ -241,21 +243,27 @@ for (i in 1:n){
 library(ggplot2)
 
 tlist %>% 
-  map(~.$estimate[[1]]) -> list_list
+  map_dbl(~.$estimate[[1]]) %>% 
+  tibble(x=.) %>% 
+  ggplot(aes(x=x))+
+    geom_histogram(bins = 10)+
+  theme_classic()
+
+# original/check
+tlist %>%
+  map(~.$estimate) -> list_list
 
 cum_vec <- vector(mode = "double", length = 1000)
 for (i in seq_along(cum_vec)) {
     cum_vec[[i]] <- list.extract(list_list, i)
 }
+cum_vec %>%
+   tibble() %>%
+   ggplot(aes(x=.)) +
+   geom_histogram(binwidth =.4)+
+    theme_classic()
 
-
-cum_vec %>%  
-  tibble() %>%  
-  ggplot(aes(x=.)) + 
-  geom_histogram(aes(y=..density..),      
-                   binwidth =.2,
-                   colour="black", fill="white") +
-  geom_density(alpha=.2, fill="#FFFF00")  
+ 
 ```
 
 4. The $p$-value is an important quantity in statistics. Use a for-loop to extract the $p$-values from each test in part 1 and combine these
@@ -288,20 +296,18 @@ pvec_m %>%
 - Use the data from `pvec_m` to create a [QQ-plot](https://en.wikipedia.org/wiki/Q–Q_plot) and then interpret the plot with regard to whether the $p$-values exhibit a uniform distribution.  
 - Ensure your plot has appropriate labels for the axes and a title. 
 - Include an abline that is dashed and colored red.
-```{r}
-t.test(pvec_m)
-```
 
 ```{r}
-qqnorm(pvec_m)
-qqline(pvec_m, col = "red", lty = 2)
+pvec_m %>%
+  as_tibble() %>% 
+  ggplot()+
+  geom_qq(geom = "point", position = "identity", distribution = stats::qunif, mapping = aes(sample = pvec_m))+
+  geom_abline(color = "red", linetype = "dashed", size = 2)+  
+  ggtitle("QQ_Plot")+
+  labs(x = "Theoretical_Quantiles", y = "Sample_Quantiles")+
+  theme_classic()
 ```
 Interpretation: 
+p-value follow the uniform distribution, because the points are well aligned with the red dotted line. 
 
-Null hypothesis: p-value follow the uniform distribution.
-Alternative hypothesis: p-value do not follow the uniform distribution. 
-
-t.test shows that p-value is very close to 0. Let's say alpha =0.01, then p-value < alpha. Therefore, we can reject the null hypothesis. So we choose alternative hypothesis which is p-value do not follow the uniform distribution. 
-
-Furthermore,most of the dots are well aligned with the red line. This can indicates that this distribution is a normal distribution. 
 
