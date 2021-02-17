@@ -420,7 +420,7 @@ summary {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>data &lt;- readRDS(&quot;fpout.RDS&quot;)</code></pre>
+<pre class="r"><code>data &lt;- readRDS(&quot;../data/fpout.RDS&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Use appropriate functions to obtain the length of the list and then the vector of the names from the list.</li>
 </ol>
@@ -629,18 +629,18 @@ b[[8L]]</code></pre>
 tout &lt;- t.test(x)
 str(tout)</code></pre>
 <pre><code>## List of 10
-##  $ statistic  : Named num 0.314
+##  $ statistic  : Named num 0.578
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;t&quot;
 ##  $ parameter  : Named num 9
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;df&quot;
-##  $ p.value    : num 0.761
-##  $ conf.int   : num [1:2] -0.544 0.719
+##  $ p.value    : num 0.577
+##  $ conf.int   : num [1:2] -0.516 0.87
 ##   ..- attr(*, &quot;conf.level&quot;)= num 0.95
-##  $ estimate   : Named num 0.0876
+##  $ estimate   : Named num 0.177
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;mean of x&quot;
 ##  $ null.value : Named num 0
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;mean&quot;
-##  $ stderr     : num 0.279
+##  $ stderr     : num 0.306
 ##  $ alternative: chr &quot;two.sided&quot;
 ##  $ method     : chr &quot;One Sample t-test&quot;
 ##  $ data.name  : chr &quot;x&quot;
