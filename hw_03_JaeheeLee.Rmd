@@ -88,15 +88,8 @@ names_of_var_not_double
 ```{r}
 scores %>%  
   keep(is.double) %>%  
-  colMeans() -> data$col_means
+  colMeans(na.rm = TRUE) -> data$col_means
 data$col_means
-
-
-# original 
-# scores %>%  
-#  keep(is.double) %>%  
-#  na.omit() -> scores_double
-# data$col_means <- colMeans(scores_double) 
 ```
 
 
@@ -143,6 +136,8 @@ For example, in my implementation of `calcn()`, I obtained the following: (see H
 ```{r}
 
 calcn <- function(x,n){
+  stopifnot(length(x) ==3 & is.numeric(x))
+  stopifnot(n > 0 & is.integer(n))
   
   for (i in 4:n){
 result = x[i-1] +abs(x[i-3]-x[i-2])/4
@@ -224,16 +219,17 @@ str(tout)
 2. Write a for-loop to perform the following three operations on iteration `i`:
 
 ```{r}
-library(rlist)
-
+# 3.3.2:  - 0.5 Did not initialize the list of proper length so is inefficient
 set.seed(1)
 n <- 1000
 # Create empty list to store vectors
-tlist <- vector(mode = "list")
+tlist <- vector(mode = "list", length = 1000)
 
 for (i in 1:n){
  tlist[[i]] <- t.test(rnorm(10,0,2))
 }
+tlist[[1]]
+length(tlist)
 
 ```
 
@@ -275,20 +271,16 @@ tlist %>%
 pvec_f <- vector(mode = "double", length = 1000)
 
 for (i in seq_along(pvec_f)) {
-    pvec_f[[i]] <- list.extract(pvalue, i)
+    pvec_f[i] <-tlist[[i]]$p.value
 }
 head(pvec_f)
 ```
 
 5. Use the appropriate map function to extract the $p$-values from each test in part 1 and combine these $p$-values into a single vector called `pvec_m`. Show the first 6 values.
 ```{r}
-tlist %>% 
-  map(~.$p.value[[1]]) %>%  
-  unlist() -> pvec_m
-
+map_dbl(tlist, ~.$p.value) -> pvec_m
 pvec_m %>%  
   head()
-
 ```
 
 6. *Extra Credit* $p$-values have a nice property where, if the the null hypothesis is true (i.e. the mean of the observations is actually 0), then the $p$-values follow the uniform distribution. 
