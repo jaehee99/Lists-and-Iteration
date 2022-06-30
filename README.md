@@ -7,7 +7,7 @@
 - Learn how to simulate data using `rnorm`
 - Correct map output and Plot using ggplot
 # Data 
-- fpout.RDS has sample output from using fitPoly, a statistical method to quantify properties of locations on the [genome](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5915555/)
+- fpout.RDS has sample output from using [fitPoly](https://cran.r-project.org/package=fitPoly), a statistical method to quantify properties of locations on the [genome](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5915555/)
 - I used several simulated data
 
 # Explanation 
