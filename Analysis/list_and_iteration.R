@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # Use readRDS() and a relative path to read this data into R.
-data <- readRDS("fpout.RDS")
+data <- readRDS("../data/fpout.RDS")
 
 # Use appropriate functions to obtain the length of the list and then the vector of the names from the list.
 length_list <- length(data)  
