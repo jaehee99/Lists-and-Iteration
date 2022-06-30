@@ -1,6 +1,3 @@
-# First section: Working with Lists
-# Because of their generality, lists (or list-like objects) are often the output of many statistical procedures in R. The file `fpout.RDS` in the data folder contains sample output from using [fitPoly](https://cran.r-project.org/package=fitPoly), a statistical method to quantify properties of locations on the [genome](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5915555/).  
-
 # load libraries  
 library(tidyverse)
 
